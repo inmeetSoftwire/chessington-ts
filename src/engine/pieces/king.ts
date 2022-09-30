@@ -9,10 +9,10 @@ export default class King extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return King.getKingMoves(board, board.findPiece(this))
+        return King.getKingMoves(board, board.findPiece(this), this)
     }
 
-    private static getKingMoves(board: Board, square: Square) {
+    private static getKingMoves(board: Board, square: Square, piece: Piece) {
         const currentRow = square.row
         const currentCol = square.col
         const moveArray = []
@@ -20,7 +20,10 @@ export default class King extends Piece {
             for (let y = -1; y <= 1; y++) {
                 if (!(x == 0 && y == 0)) {
                     if (currentCol + y < 8 && currentCol + y >= 0 && currentRow + x < 8 && currentRow + x >= 0) {
-                        moveArray.push(Square.at(currentRow + x, currentCol + y))
+                        const moveSquare = Square.at(currentRow + x, currentCol + y)
+                        if (board.getPiece(moveSquare)?.player != piece.player && !(board.getPiece(moveSquare) instanceof King)) {
+                            moveArray.push(moveSquare)
+                        }
                     }
                 }
             }
