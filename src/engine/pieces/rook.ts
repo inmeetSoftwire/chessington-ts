@@ -9,14 +9,17 @@ export default class Rook extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const currentSquare = board.findPiece(this)
+        return Rook.getLateralMoves(board, board.findPiece(this))
+    }
+
+    public static getLateralMoves(board: Board, square: Square) {
         const moveArray = []
         for (let i = 0; i < 8; i++) {
-            if (i != currentSquare.col) {
-                moveArray.push(Square.at(currentSquare.row, i))
+            if (i != square.col) {
+                moveArray.push(Square.at(square.row, i))
             }
-            if (i != currentSquare.row) {
-                moveArray.push(Square.at(i, currentSquare.col))
+            if (i != square.row) {
+                moveArray.push(Square.at(i, square.col))
             }
         } 
         return moveArray

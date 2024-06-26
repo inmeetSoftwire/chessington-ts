@@ -9,9 +9,13 @@ export default class Bishop extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
+        return Bishop.getDiagonalMoves(board, board.findPiece(this))
+    }
+
+    public static getDiagonalMoves(board: Board, square: Square) {
         const moveArray = []
-        const currentRow = board.findPiece(this).row
-        const currentCol = board.findPiece(this).col
+        const currentRow = square.row
+        const currentCol = square.col
         for (let i = 1; i < 8; i++) {
             if (currentRow + i < 8) {
                 if (currentCol + i < 8) {
