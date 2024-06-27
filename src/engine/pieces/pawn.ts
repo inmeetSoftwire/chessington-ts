@@ -13,8 +13,6 @@ export default class Pawn extends Piece {
         let newRow = currentSquare.row
         this.player == Player.BLACK ? newRow -= 1 : newRow += 1 
         if (!board.getPiece(Square.at(newRow, currentSquare.col))) {
-            console.log(board.getPiece(Square.at(newRow, currentSquare.col)))
-            console.log(newRow, currentSquare.col)
             moveArray.push(Square.at(newRow, currentSquare.col))
             let newRow2 = currentSquare.row
             if (currentSquare.row == 1 && this.player == Player.WHITE) {

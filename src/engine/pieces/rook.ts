@@ -17,8 +17,6 @@ export default class Rook extends Piece {
         const startRow = square.row
         const startCol = square.col
 
-        //Left
-
 
         let left = -1
         while (startCol + left >= 0 && !board.getPiece(Square.at(startRow, startCol + left))) {
