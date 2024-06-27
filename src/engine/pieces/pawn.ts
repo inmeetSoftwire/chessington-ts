@@ -11,7 +11,10 @@ export default class Pawn extends Piece {
         const moveArray = []
         const currentSquare = board.findPiece(this)
         let newRow = currentSquare.row
-        this.player == Player.BLACK ? newRow -= 1 : newRow += 1 
+        this.player == Player.BLACK ? newRow -= 1 : newRow += 1
+        if (newRow < 0 || newRow >= 8) {
+            return []
+        }
         if (!board.getPiece(Square.at(newRow, currentSquare.col))) {
             moveArray.push(Square.at(newRow, currentSquare.col))
             let newRow2 = currentSquare.row
