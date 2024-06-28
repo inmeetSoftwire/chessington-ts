@@ -5,14 +5,11 @@ import Square from '../square';
 import King from './king';
 
 export default class Pawn extends Piece {
-    public vulnerableToEnPassant: boolean;
 
     public constructor(player: Player) {
         super(player);
-        this.vulnerableToEnPassant = false
     }
     public getAvailableMoves(board: Board) {
-        this.vulnerableToEnPassant = false
         const moveArray = []
         const currentSquare = board.findPiece(this)
         let newRow = currentSquare.row
@@ -58,14 +55,14 @@ export default class Pawn extends Piece {
         if (this.player == Player.BLACK && newRow == 2) {
             if (myCol - 1 >= 0) {
                 const adjPiece = board.getPiece(Square.at(myRow, myCol - 1))
-                if (adjPiece instanceof Pawn && adjPiece.player != this.player && adjPiece.vulnerableToEnPassant) {
+                if (adjPiece instanceof Pawn && adjPiece == board.pawnVulnerableToEnPassant) {
                     moveArray.push(Square.at(newRow, myCol - 1))
                 }
             }
             
             if (myCol + 1 < 8) {
                 const adjPiece2 = board.getPiece(Square.at(myRow, myCol + 1))
-                if (adjPiece2 instanceof Pawn && adjPiece2.player != this.player && adjPiece2.vulnerableToEnPassant) {
+                if (adjPiece2 instanceof Pawn && adjPiece2 == board.pawnVulnerableToEnPassant) {
                     moveArray.push(Square.at(newRow, myCol + 1))
                 }
             }
@@ -74,14 +71,14 @@ export default class Pawn extends Piece {
         if (this.player == Player.WHITE && newRow == 5) {
             if (myCol - 1 >= 0) {
                 const adjPiece = board.getPiece(Square.at(myRow, myCol - 1))
-                if (adjPiece instanceof Pawn && adjPiece.player != this.player && adjPiece.vulnerableToEnPassant) {
+                if (adjPiece instanceof Pawn && adjPiece == board.pawnVulnerableToEnPassant) {
                     moveArray.push(Square.at(newRow, myCol - 1))
                 }
             }
             
             if (myCol + 1 < 8) {
                 const adjPiece2 = board.getPiece(Square.at(myRow, myCol + 1))
-                if (adjPiece2 instanceof Pawn && adjPiece2.player != this.player && adjPiece2.vulnerableToEnPassant) {
+                if (adjPiece2 instanceof Pawn && adjPiece2 == board.pawnVulnerableToEnPassant) {
                     moveArray.push(Square.at(newRow, myCol + 1))
                 }
             }

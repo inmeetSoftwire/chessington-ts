@@ -7,6 +7,7 @@ import Pawn from './pieces/pawn';
 export default class Board {
     public currentPlayer: Player;
     private readonly board: (Piece | undefined)[][];
+    public pawnVulnerableToEnPassant?: Pawn;
 
     public constructor(currentPlayer?: Player) {
         this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
@@ -38,13 +39,14 @@ export default class Board {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
-            if (movingPiece instanceof Pawn && Math.abs(toSquare.row - fromSquare.row) == 2.0) {
+            this.pawnVulnerableToEnPassant = undefined
+            
+            if (movingPiece instanceof Pawn && Math.abs(toSquare.row - fromSquare.row) == 2) {
                 const myCol = toSquare.col
                 const myRow = toSquare.row
-                console.log("HEERRRRRR")
                 if ((myCol - 1 >= 0 && this.isThereOppPawnAt(Square.at(myRow, myCol - 1), movingPiece.player)) || 
                     (myCol + 1 < 8 && this.isThereOppPawnAt(Square.at(myRow, myCol + 1), movingPiece.player))) {
-                        movingPiece.vulnerableToEnPassant = true
+                        this.pawnVulnerableToEnPassant = movingPiece
                 }
             }
         }

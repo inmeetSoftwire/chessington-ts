@@ -96,6 +96,26 @@ describe('Pawn', () => {
 
             moves.should.deep.include(Square.at(5, 3));
         });
+
+        it('cannot perform an en passant if it is not the turn immediately after the opposing pawn has moved two squares.', () => {
+            const pawn = new Pawn(Player.WHITE);
+            const oppPawn = new Pawn(Player.BLACK);
+            const pawn2 = new Pawn(Player.WHITE);
+            const oppPawn2 = new Pawn(Player.BLACK);
+            board.setPiece(Square.at(4, 4), pawn);
+            board.setPiece(Square.at(6, 3), oppPawn);
+            board.setPiece(Square.at(0, 1), pawn2)
+            board.setPiece(Square.at(6, 0), oppPawn2)
+            board.currentPlayer = Player.BLACK
+            board.movePiece(Square.at(6, 3), Square.at(4, 3))
+            board.movePiece(Square.at(0,1), Square.at(2, 1))
+            board.movePiece(Square.at(6, 0), Square.at(4, 0))
+            
+            const moves = pawn.getAvailableMoves(board);
+
+            moves.should.not.deep.include(Square.at(5, 3));
+        });
+
     });
 
     describe('black pawns', () => {
@@ -186,6 +206,24 @@ describe('Pawn', () => {
             const moves = pawn.getAvailableMoves(board);
 
             moves.should.deep.include(Square.at(2, 3));
+        });
+        it('cannot perform an en passant if it is not the turn immediately after the opposing pawn has moved two squares.', () => {
+            const pawn = new Pawn(Player.BLACK);
+            const oppPawn = new Pawn(Player.WHITE);
+            const pawn2 = new Pawn(Player.BLACK);
+            const oppPawn2 = new Pawn(Player.WHITE);
+            board.setPiece(Square.at(3, 4), pawn);
+            board.setPiece(Square.at(1, 3), oppPawn);
+            board.setPiece(Square.at(6, 0), pawn2)
+            board.setPiece(Square.at(0, 1), oppPawn2)
+            board.currentPlayer = Player.WHITE
+            board.movePiece(Square.at(1, 3), Square.at(3, 3))
+            board.movePiece(Square.at(6, 0), Square.at(4, 0))
+            board.movePiece(Square.at(0,1), Square.at(2, 1))
+            
+            const moves = pawn.getAvailableMoves(board);
+
+            moves.should.not.deep.include(Square.at(2, 3));
         });
     });
 
