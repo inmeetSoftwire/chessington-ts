@@ -39,8 +39,14 @@ export default class Board {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            if (this.pawnVulnerableToEnPassant && movingPiece instanceof Pawn) {
+                if (this.getPiece(Square.at(toSquare.row - 1, toSquare.col)) == this.pawnVulnerableToEnPassant ||
+                this.getPiece(Square.at(toSquare.row + 1, toSquare.col)) == this.pawnVulnerableToEnPassant) {
+                    this.setPiece(this.findPiece(this.pawnVulnerableToEnPassant), undefined)
+                }
+            }
+
             this.pawnVulnerableToEnPassant = undefined
-            
             if (movingPiece instanceof Pawn && Math.abs(toSquare.row - fromSquare.row) == 2) {
                 const myCol = toSquare.col
                 const myRow = toSquare.row

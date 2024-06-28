@@ -75,6 +75,7 @@ function onDrop(source, target) {
 function updateStatus() {
     const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
     document.getElementById('turn-status').innerHTML = `${player} to move`;
+    reloadBoardUI();
 }
 
 function boardInStartingPosition() {
@@ -111,6 +112,10 @@ function boardInStartingPosition() {
 
 export function createChessBoard() {
     board = boardInStartingPosition();
+    updateStatus();
+}
+
+function reloadBoardUI() {
     boardUI = ChessBoard(
         'chess-board', 
         {
@@ -121,5 +126,4 @@ export function createChessBoard() {
             onDrop: onDrop
         }
     );
-    updateStatus();
 }
