@@ -2,6 +2,7 @@ import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import Piece from './pieces/piece';
+import Pawn from './pieces/pawn';
 
 export default class Board {
     public currentPlayer: Player;
@@ -37,6 +38,15 @@ export default class Board {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            if (movingPiece instanceof Pawn && Math.abs(toSquare.row - fromSquare.row) == 2.0) {
+                const myCol = toSquare.col
+                const myRow = toSquare.row
+                console.log("HEERRRRRR")
+                if ((myCol - 1 >= 0 && this.isThereOppPawnAt(Square.at(myRow, myCol - 1), movingPiece.player)) || 
+                    (myCol + 1 < 8 && this.isThereOppPawnAt(Square.at(myRow, myCol + 1), movingPiece.player))) {
+                        movingPiece.vulnerableToEnPassant = true
+                }
+            }
         }
     }
 
@@ -46,5 +56,8 @@ export default class Board {
             board[i] = new Array(GameSettings.BOARD_SIZE);
         }
         return board;
+    }
+    private isThereOppPawnAt(square: Square, myPlayer : Player) {
+        return this.getPiece(square) instanceof Pawn && this.getPiece(square)?.player != myPlayer
     }
 }
